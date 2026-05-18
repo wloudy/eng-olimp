@@ -300,7 +300,7 @@
       flex-shrink: 0;
       background: rgba(4, 8, 24, 0.55);
       backdrop-filter: blur(60px) saturate(180%);
-      -webkit-backdrop-filter: blur(60px) saturate(180%);
+      -webkit-backdrop-filter: blur(60px);
       border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 2.5rem;
       padding: 2rem 1.5rem;
@@ -935,14 +935,12 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 2rem;
-      position: sticky;
-      top: 0;
       background: rgba(8, 16, 38, 0.95);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       padding: 1rem 0;
-      z-index: 5;
       border-bottom: 1px solid rgba(255,255,255,0.08);
+      flex-shrink: 0;
     }
 
     .library-title {
@@ -1188,6 +1186,187 @@
       color: #f0f4ff;
     }
 
+    /* ============ КОТ-АСТРОНАВТ (ПОМОЩНИК) - БОЛЕЕ РЕАЛИСТИЧНЫЙ ============ */
+    #space-assistant {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      pointer-events: none;
+      filter: drop-shadow(0 0 15px rgba(34,211,238,0.4));
+      transition: transform 0.3s ease;
+    }
+
+    .assistant-avatar {
+      width: 75px;
+      height: 75px;
+      background: linear-gradient(135deg, #f5a623, #e07c1f);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ffd700;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+      animation: floatAssistant 3s ease-in-out infinite;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: 0.2s;
+      position: relative;
+    }
+
+    /* Ушки кота */
+    .assistant-avatar::before,
+    .assistant-avatar::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-bottom: 22px solid #f5a623;
+      top: -8px;
+    }
+
+    .assistant-avatar::before {
+      left: 8px;
+      transform: rotate(-25deg);
+    }
+
+    .assistant-avatar::after {
+      right: 8px;
+      transform: rotate(25deg);
+    }
+
+    /* Лицо кота */
+    .cat-face {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .cat-eyes {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .cat-eye {
+      width: 10px;
+      height: 12px;
+      background: #1a1a2e;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .cat-eye::after {
+      content: '';
+      position: absolute;
+      width: 4px;
+      height: 6px;
+      background: #fff;
+      border-radius: 50%;
+      top: 2px;
+      left: 3px;
+    }
+
+    .cat-nose {
+      width: 8px;
+      height: 6px;
+      background: #ff6b6b;
+      border-radius: 50%;
+      margin-bottom: 2px;
+    }
+
+    .cat-mouth {
+      font-size: 10px;
+      line-height: 1;
+      color: #2d1b00;
+    }
+
+    /* Усы */
+    .cat-whiskers {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
+    .cat-whiskers::before,
+    .cat-whiskers::after {
+      content: '~~~';
+      position: absolute;
+      font-size: 10px;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 2px;
+    }
+
+    .cat-whiskers::before {
+      top: 35px;
+      left: -18px;
+      transform: rotate(-15deg);
+    }
+
+    .cat-whiskers::after {
+      top: 35px;
+      right: -18px;
+      transform: rotate(15deg);
+    }
+
+    /* Шлем астронавта */
+    .cat-helmet {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), transparent 70%);
+      pointer-events: none;
+    }
+
+    @keyframes floatAssistant {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .assistant-avatar:active {
+      transform: scale(0.95);
+    }
+
+    .assistant-bubble {
+      background: rgba(10, 20, 45, 0.95);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 10px 18px;
+      max-width: 260px;
+      font-size: 0.85rem;
+      color: #e2e8f0;
+      border: 1px solid #22d3ee;
+      box-shadow: 0 0 20px #22d3ee40;
+      font-family: 'Inter', sans-serif;
+      animation: bubbleAppear 0.3s ease-out;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    @keyframes bubbleAppear {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
     /* ============ АДАПТИВНОСТЬ ============ */
     @media (max-width: 1300px) {
       .game-grid { grid-template-columns: repeat(6, 1fr); gap: 0.9rem; }
@@ -1236,6 +1415,9 @@
       .library-title { font-size: 1.4rem; }
       .match-columns { flex-direction: column; align-items: center; gap: 1rem; }
       .match-column { min-width: auto; width: 100%; max-width: 350px; }
+      #space-assistant { bottom: 10px; right: 10px; }
+      .assistant-avatar { width: 60px; height: 60px; }
+      .assistant-bubble { max-width: 200px; font-size: 0.75rem; padding: 8px 12px; }
     }
 
     @media (max-width: 480px) {
@@ -1375,6 +1557,25 @@
     </div>
   </div>
 
+  <!-- ============ КОТ-АСТРОНАВТ (ПОМОЩНИК) ============ -->
+  <div id="space-assistant">
+    <div class="assistant-avatar" id="assistant-avatar">
+      <div class="cat-face">
+        <div class="cat-eyes">
+          <div class="cat-eye"></div>
+          <div class="cat-eye"></div>
+        </div>
+        <div class="cat-nose"></div>
+        <div class="cat-mouth">😺</div>
+      </div>
+      <div class="cat-whiskers"></div>
+      <div class="cat-helmet"></div>
+    </div>
+    <div class="assistant-bubble" id="assistant-bubble">
+      Мяу! Я звёздный кот Барсик. Помогу тебе исследовать космос 🌟
+    </div>
+  </div>
+
   <!-- ============ ИНФО-ОКНО ============ -->
   <div class="info-modal" id="info-modal">
     <div class="info-card">
@@ -1384,7 +1585,7 @@
     </div>
   </div>
 
-  <!-- ============ БИБЛИОТЕКА ============ -->
+  <!-- ============ БИБЛИОТЕКА (ШАПКА СТАТИЧЕСКАЯ) ============ -->
   <div class="library-modal" id="library-modal">
     <div class="library-container">
       <div class="library-header">
@@ -1466,8 +1667,8 @@
       // ⚠️ МЕСТА ДЛЯ URL КАРТИНОК ПЛАНЕТ (замените пустые строки на ссылки)
       const spaceData = [
         { id: 'sun', name: 'Солнце', type: 'Звезда', desc: 'Центр нашей системы. Температура ядра — 15 миллионов градусов. Каждую секунду превращает 600 млн тонн водорода в гелий.', imgUrl: '', planetClass: 'planet-sun' },
-        { id: 'mercury', name: 'Меркурий', type: 'Планета', desc: 'Ближайшая к Солнцу планета. Перепады температур: от +430°C днём до -180°C ночью.', imgUrl: '', planetClass: 'planet-mercury' },
-        { id: 'venus', name: 'Венера', type: 'Планета', desc: 'Самая горячая планета. Атмосфера из углекислого газа создаёт сильнейший парниковый эффект.', imgUrl: '', planetClass: 'planet-venus' },
+        { id: 'mercury', name: 'Меркурий', type: 'Планета', desc: 'Самая маленькая планета Солнечной системы. Его магнитное поле в 100 раз слабее земного, но при этом достаточно сильное, чтобы влиять на движение солнечного ветра вокруг планеты, создавая магнитосферу.  На Меркурии нет смены времен года. Это происходит из-за того, что ось вращения планеты почти перпендикулярна плоскости орбиты. Дневная сторона Меркурия прогревается на 427°С, а на ночной — температура падает до -173°С. Планета практически лишена атмосферного слоя, поэтому не способна обеспечивать равномерное распределение нагрева. Поверхность планеты быстро нагревается и остывает, но уже на глубине 1 м суточные колебания перестают ощущаться, а температура становится стабильной, равной приблизительно 75°С. Большая часть информации о Меркурии была получена двумя космическими аппаратами «Маринер-10» и «Мессенжер» (НАСА), достигшими планетв первый раз в 1974 —1975 гг. и второй раз в 2011 — 2015 гг.', imgUrl: '', planetClass: 'planet-mercury' },
+        { id: 'venus', name: 'Венера', type: 'Планета', desc: 'Вторая от Солнца планета, которая является самой горячей планетой Солнечно системы. Это — третий по яркости объект на небе Земли, после Солнца и Луны. Венера не имеет магнитного поля. Ее вращение вокруг своей оси — обратное, т.е. происходит в направлении, противоположном движению планеты вокруг Солнца. Давление атмосферы на Венере в 90 раз больше, чем на Земле. Атмосфера Венеры состоит в основном из углекислого газа (96,5%) и азота (3,5%). Содержание других газов очень мало: диоксида серы — 0,018%, аргона — 0,007%, водяного пара — 0,003%, остальных составляющих — еще меньше. Облака на Венере состоят из капелек серной и соляной кислоты. Углекислый газовый океан и плотные облака создают сильный парниковый эффект у поверхности планеты. Они делают поверхность Венеры самой горячей в Солнечной системе. Температура поверхности достигает 480 К. Вода в жидком состоянии при такой температуре находиться не может.  Венера довольно интенсивно исследовалась с помощью космических аппаратов: было отправлено около 30 миссий, начиная с 1961 г. (первым достигла Венеры советская автоматическая межпланетная станция (АМС) «Венера-1»)', imgUrl: '', planetClass: 'planet-venus' },
         { id: 'earth', name: 'Земля', type: 'Планета', desc: 'Наш дом. 71% поверхности покрыто водой. Единственная известная планета, на которой есть жизнь.', imgUrl: '', planetClass: 'planet-earth' },
         { id: 'mars', name: 'Марс', type: 'Планета', desc: 'Красная планета. Здесь находится Олимп — высочайший вулкан в Солнечной системе (выше Эвереста в 2.5 раза).', imgUrl: '', planetClass: 'planet-mars' },
         { id: 'jupiter', name: 'Юпитер', type: 'Газовый гигант', desc: 'Крупнейшая планета. Большое Красное Пятно — гигантский шторм, который бушует уже более 350 лет.', imgUrl: '', planetClass: 'planet-jupiter' },
@@ -1668,6 +1869,61 @@
         locked: false
       };
 
+      // ============ КОТ-АСТРОНАВТ (ПОМОЩНИК) ============
+      const assistantBubble = document.getElementById('assistant-bubble');
+      let assistantTimeout;
+
+      function sayMessage(msg, duration = 4000) {
+        if (!assistantBubble) return;
+        assistantBubble.textContent = msg;
+        assistantBubble.style.opacity = '1';
+        clearTimeout(assistantTimeout);
+        assistantTimeout = setTimeout(() => {
+          assistantBubble.style.opacity = '0';
+          setTimeout(() => {
+            if (assistantBubble && !assistantBubble.textContent.includes('Мяу')) {
+              assistantBubble.textContent = '🐱 Мяу! Я на связи';
+            }
+            assistantBubble.style.opacity = '1';
+          }, 500);
+        }, duration);
+      }
+
+      function assistantReact(eventType, data = {}) {
+        if (!assistantBubble) return;
+        switch (eventType) {
+          case 'gameStartMemory':
+            sayMessage('🐱 Мяу! Переворачивай карты и находи пары! Я помогу если что');
+            break;
+          case 'gameStartMatch':
+            sayMessage('🪐 Соедини планету с её спутником! Когти вперёд!');
+            break;
+          case 'matchCorrect':
+            sayMessage('✅ Мур-правильно! Так держать, космический кот одобряет');
+            break;
+          case 'matchWrong':
+            sayMessage('❌ Мяу... Неправильно. Попробуй ещё раз, я верю в тебя!');
+            break;
+          case 'memoryMatch':
+            sayMessage(`✨ Мурр! ${data.name || 'Объект'} добавлен в твою коллекцию! 🎉`);
+            break;
+          case 'victoryMemory':
+            sayMessage('🏆 МЯУ-У-У! Ты покорил космос! Барсик гордится тобой!');
+            break;
+          case 'victoryMatch':
+            sayMessage('🌠 Идеальное соединение! Ты настоящий астроном! Мур-мур-поздравляю!');
+            break;
+          case 'hintUsed':
+            sayMessage('💡 Я подсветил возможные пары. Смотри внимательно, котёнок!');
+            break;
+          case 'restart':
+            sayMessage('🔄 Перезапуск... Новая космическая экспедиция начинается! Мяу!');
+            break;
+          default:
+            sayMessage('🚀 Мяу! Звёзды на твоей стороне, космонавт!');
+        }
+      }
+
       // Парящая пыль
       function spawnDust() {
         const container = document.getElementById('floating-dust');
@@ -1742,7 +1998,7 @@
 
       function flipCard(el) {
         if (state.locked || el.classList.contains('flipped') || el.classList.contains('matched')) return;
-        if (!state.gameStarted) { state.gameStarted = true; startClock(); }
+        if (!state.gameStarted) { state.gameStarted = true; startClock(); assistantReact('gameStartMemory'); }
         el.classList.add('flipped');
         state.flipped.push(el);
         if (state.flipped.length === 2) {
@@ -1781,6 +2037,7 @@
         badge.onclick = () => showInfo(id);
         document.getElementById('inventory').appendChild(badge);
         setTimeout(() => badge.classList.remove('pop-anim'), 600);
+        assistantReact('memoryMatch', { name: data.name });
       }
 
       function showInfo(id) {
@@ -1831,11 +2088,9 @@
         const planetsCol = document.getElementById('planets-column');
         const moonsCol = document.getElementById('moons-column');
 
-        // Очищаем, оставляя заголовки
         planetsCol.querySelectorAll('.match-item').forEach(el => el.remove());
         moonsCol.querySelectorAll('.match-item').forEach(el => el.remove());
 
-        // Перемешиваем планеты и спутники отдельно
         const shuffledPlanets = shuffleArray([...planetMoonPairs]);
         const shuffledMoons = shuffleArray([...planetMoonPairs]);
 
@@ -1880,9 +2135,8 @@
       function onPlanetClick(el, pair) {
         if (matchState.locked) return;
         if (el.classList.contains('matched-correct')) return;
-        if (!matchState.gameStarted) { matchState.gameStarted = true; startMatchClock(); }
+        if (!matchState.gameStarted) { matchState.gameStarted = true; startMatchClock(); assistantReact('gameStartMatch'); }
 
-        // Снимаем выделение с предыдущей планеты
         matchState.planets.forEach(p => p.classList.remove('selected'));
         el.classList.add('selected');
         matchState.selectedPlanet = { el, pair };
@@ -1893,9 +2147,8 @@
       function onMoonClick(el, pair) {
         if (matchState.locked) return;
         if (el.classList.contains('matched-correct')) return;
-        if (!matchState.gameStarted) { matchState.gameStarted = true; startMatchClock(); }
+        if (!matchState.gameStarted) { matchState.gameStarted = true; startMatchClock(); assistantReact('gameStartMatch'); }
 
-        // Снимаем выделение с предыдущего спутника
         matchState.moons.forEach(m => m.classList.remove('selected'));
         el.classList.add('selected');
         matchState.selectedMoon = { el, pair };
@@ -1915,7 +2168,6 @@
         const moonPair = matchState.selectedMoon.pair;
 
         if (planetPair.planet === moonPair.planet) {
-          // Правильно!
           setTimeout(() => {
             matchState.selectedPlanet.el.classList.add('matched-correct');
             matchState.selectedMoon.el.classList.add('matched-correct');
@@ -1923,7 +2175,6 @@
             matchState.selectedMoon.el.classList.remove('selected');
             matchState.matchedPairs.push(planetPair.planet);
 
-            // Анимация линии
             drawConnections(true);
 
             matchState.selectedPlanet = null;
@@ -1933,12 +2184,13 @@
             document.getElementById('match-score-display').textContent =
               `✅ ${matchState.matchedPairs.length} / ${planetMoonPairs.length} пар найдено`;
 
+            assistantReact('matchCorrect');
+
             if (matchState.matchedPairs.length === planetMoonPairs.length) {
               matchVictory();
             }
           }, 400);
         } else {
-          // Неправильно
           const planetEl = matchState.selectedPlanet.el;
           const moonEl = matchState.selectedMoon.el;
 
@@ -1953,6 +2205,8 @@
             matchState.locked = false;
             drawConnections();
           }, 600);
+
+          assistantReact('matchWrong');
         }
       }
 
@@ -1991,7 +2245,6 @@
             ctx.stroke();
             ctx.setLineDash([]);
 
-            // Свечение
             ctx.beginPath();
             ctx.moveTo(startX, startY);
             ctx.lineTo(endX, endY);
@@ -2023,12 +2276,14 @@
         rankEl.style.backgroundClip = 'text';
 
         document.getElementById('win-screen').classList.add('visible');
+        assistantReact('victoryMatch');
       }
 
       // ============ БИБЛИОТЕКА ============
       function openLibrary() {
         document.getElementById('library-modal').classList.add('active');
         document.body.style.overflow = 'hidden';
+        sayMessage('📚 Мур! В библиотеке много интересных книг о космосе!', 3000);
       }
 
       window.closeLibrary = function() {
@@ -2064,15 +2319,14 @@
         rankEl.style.backgroundClip = 'text';
 
         document.getElementById('win-screen').classList.add('visible');
+        assistantReact('victoryMemory');
       }
 
       // ============ ПЕРЕЗАПУСК ============
       function restartGame() {
-        // Очистка Memory
         clearInterval(state.interval);
         state = { cards: [], flipped: [], matched: 0, moves: 0, timer: 0, interval: null, hintsLeft: 2, locked: false, gameStarted: false };
 
-        // Очистка Match
         clearInterval(matchState.interval);
         matchState = {
           planets: [],
@@ -2109,6 +2363,8 @@
         const canvas = document.getElementById('connections-canvas');
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        assistantReact('restart');
       }
 
       window.restartGame = restartGame;
@@ -2129,6 +2385,12 @@
           hidden.forEach(c => c.classList.remove('flipped'));
           state.locked = false;
         }, 1500);
+        assistantReact('hintUsed');
+      });
+
+      // Клик по коту-астронавту
+      document.getElementById('assistant-avatar').addEventListener('click', () => {
+        sayMessage('🐱🚀 Мяу! Я звёздный кот Барсик! Используй подсказки, заглядывай в библиотеку и покоряй космос! 🌟✨', 5000);
       });
 
       // ============ ОБРАБОТЧИКИ РЕСАЙЗА ============
@@ -2141,7 +2403,7 @@
       renderLibrary();
       buildMemoryBoard();
       buildMatchGame();
-      switchGame('memory'); // Начинаем с Memory
+      switchGame('memory');
 
       window.addEventListener('load', () => {
         const txt = "Авторы: Голосов Даниил Алексеевич | Баринова София Владимировна | Климов Владислав Александрович";
